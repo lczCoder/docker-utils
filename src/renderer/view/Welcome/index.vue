@@ -1,5 +1,5 @@
 <template>
-  <div class="home-warp">
+  <div class="welcome-warp">
     <div class="pl">
       <div class="pl__dot"></div>
       <div class="pl__dot"></div>
