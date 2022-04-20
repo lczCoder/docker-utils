@@ -5,9 +5,6 @@
 </template>
 
 <script>
-import fs from "fs";
-import path from "path";
-import cmd from "child_process";
 const { exec } = require("child_process");
 export default {
   name: "landing-page",
