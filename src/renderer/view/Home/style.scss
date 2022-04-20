@@ -21,7 +21,7 @@
   will-change: perspective;
   -webkit-perspective-origin: center center;
   perspective-origin: center center;
-  transition: all 1s ease-out;
+  transition: all 0.5s ease-out;
   justify-content: center;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
@@ -30,7 +30,7 @@
 .all:hover {
   -webkit-perspective: 1000px;
   perspective: 1000px;
-  transition: all 1s ease-in;
+  transition: all 0.5s ease-in;
   -webkit-transform: perspective(10000px) rotateX(0deg);
   transform: perspective(10000px) rotateX(0deg);
 }

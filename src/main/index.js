@@ -18,9 +18,6 @@ const winURL =
     : `file://${__dirname}/index.html`;
 
 function createWindow() {
-  /**
-   * Initial window options
-   */
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
@@ -28,7 +25,7 @@ function createWindow() {
     minHeight:400,
     maxWidth:1300,
     maxHeight:700,
-    // frame: false, 是否显示边框
+    frame: true, //是否显示边框
     useContentSize: true,
     enableRemoteModule: true,
     contextIsolation: false,

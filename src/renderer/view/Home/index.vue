@@ -1,21 +1,16 @@
 <template>
   <div class="home-warp">
     <div class="all">
-      <div class="lefter">
-        <div class="text">🔌 镜像制作</div>
-      </div>
-      <div class="left">
-        <div class="text">🎞 镜像列表</div>
-      </div>
-      <div class="center">
-        <div class="explainer"><span>开始</span></div>
-        <div class="text">📀 容器列表</div>
-      </div>
-      <div class="right">
-        <div class="text">🏷 数据卷挂载</div>
-      </div>
-      <div class="righter">
-        <div class="text">🛒 镜像商店</div>
+      <div 
+        v-for="(item, idx) in viewList" 
+        :key="idx" 
+        :class="item.p_class"
+         @click='jumpPage(item.key)' 
+        >
+        <div v-if="item.p_class == 'center'" class="explainer">
+          {{ item.c_name }}
+        </div>
+        <div class="text">{{ item.name }}</div>
       </div>
     </div>
   </div>
@@ -25,9 +20,27 @@
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      viewList: [
+        { name: "🔌 镜像制作", p_class: "lefter",key:'create' },
+        { name: "🎞 镜像列表", p_class: "left",key:'images' },
+        {
+          name: "📀 容器列表",
+          p_class: "center",
+          c_class: "explainer",
+          c_name: "开始",
+          key:'container',
+        },
+        { name: "🏷 数据卷挂载", p_class: "right", key:'volume' },
+        { name: "🛒 镜像商店", p_class: "righter", key: "shop" },
+      ],
+    };
   },
-  methods: {},
+  methods: {
+    jumpPage(key) {
+     console.log(key) ;
+    },
+  },
   created() {},
   mounted() {},
 };
