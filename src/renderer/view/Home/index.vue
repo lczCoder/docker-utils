@@ -28,7 +28,7 @@ export default {
           name: "📀 容器列表",
           p_class: "center",
           c_class: "explainer",
-          c_name: "开始",
+          // c_name: "开始",
           key:'container',
         },
         { name: "🏷 数据卷挂载", p_class: "right", key:'volume' },
