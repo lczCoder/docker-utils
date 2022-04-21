@@ -26,6 +26,7 @@ function createWindow() {
     maxWidth:1300,
     maxHeight:700,
     frame: true, //是否显示边框
+    show:true,
     useContentSize: true,
     enableRemoteModule: true,
     contextIsolation: false,

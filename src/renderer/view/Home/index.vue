@@ -34,11 +34,18 @@ export default {
         { name: "🏷 数据卷挂载", p_class: "right", key:'volume' },
         { name: "🛒 镜像商店", p_class: "righter", key: "shop" },
       ],
+      routerMap:{
+        create:'create',
+        images:'images',
+        container:'container',
+        volume:'volume',
+        shop:'shop',
+      }
     };
   },
   methods: {
     jumpPage(key) {
-     console.log(key) ;
+      this.$router.push(`/${this.routerMap[key]}`);
     },
   },
   created() {},

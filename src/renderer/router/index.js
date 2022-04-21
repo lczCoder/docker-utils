@@ -3,6 +3,8 @@ import Router from "vue-router";
 
 import Welcome from "../view/Welcome";
 import Home from '../view/Home'
+import Create from '../view/Create'
+import Shop from '../view/Shop'
 
 Vue.use(Router);
 
@@ -18,6 +20,16 @@ export default new Router({
       path: "/home",
       name: "Home",
       component: Home,
+    },
+    {
+      path: "/create",
+      name: "Create",
+      component: Create,
+    },
+    {
+      path: "/shop",
+      name: "Shop",
+      component: Shop,
     },
     {
       path: "*",
