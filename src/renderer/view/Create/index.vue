@@ -1,14 +1,38 @@
 <template>
   <div class="create-warp">
     <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
-    <el-table :data="imageData" :border="true" style="width: 100%">
+    <el-table :data="imageData" :border="true" style="width: 100%" stripe>
+      <el-table-column type="index" align="center"></el-table-column>
       <el-table-column
-        v-for="(item, idx) in table"
-        :prop="item.prop"
-        :label="item.label"
-        :key="idx"
+        label="存储库"
+        prop="repository"
         align="center"
-      >
+      ></el-table-column>
+      <el-table-column label="标签" align="center">
+        <template slot-scope="scope">
+          <el-tag type="success">{{ scope.row.tag }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="镜像ID"
+        prop="image"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        label="创建时间"
+        prop="time"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        label="存储空间"
+        prop="size"
+        align="center"
+      ></el-table-column>
+      <el-table-column label="操作" align="center" fixed="right" width="200px">
+        <template slot-scope="scope">
+          <el-button size="mini">编辑</el-button>
+          <el-button size="mini" type="danger">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -21,32 +45,12 @@ export default {
   components: {},
   data() {
     return {
-      table: [], // 镜像列表 表头
       imageData: [], // 镜像列表 内容
-      keyMap: {
-        0: "repository",
-        1: "tag",
-        2: "image",
-        3: "time",
-        4: "size",
-      },
     };
   },
   computed: {},
   watch: {},
   methods: {
-    // 解析images 数据表头、列 信息
-    dealImageStr(str) {
-      const current = Fn(str);
-      const newAry = [];
-      current.forEach((item, idx) => {
-        let obj = {};
-        obj.label = item;
-        obj.prop = this.keyMap[idx];
-        newAry.push(obj);
-      });
-      this.table = newAry;
-    },
     // 解析 images 数据内容
     dealImageData(ary) {
       const newAry = [];
@@ -64,19 +68,16 @@ export default {
     },
     // 返回上一页
     goBack() {
-      this.$router.back()
+      this.$router.back();
     },
   },
   created() {
     exec("docker images", (err, stdout) => {
       if (err) this.$message.error("镜像列表获取失败");
       let source = stdout.split("\n");
-      // 获取表头
-      this.dealImageStr(source[0]);
-      // 获取数据内容
       source.pop();
       source.shift();
-      this.dealImageData(source);
+      this.dealImageData(source); // 获取数据内容
     });
   },
   mounted() {},

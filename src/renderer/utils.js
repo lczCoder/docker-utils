@@ -2,5 +2,7 @@
 export const Fn = (str) => {
   let lx = str.replace(/\s /g, ",");
   let arr = lx.split(",");
-  return arr.filter((i) => i && i.trim());
+  const newArr = arr.filter((i) => i && i.trim());
+  newArr.forEach((item) => item.trim());
+  return newArr;
 };
