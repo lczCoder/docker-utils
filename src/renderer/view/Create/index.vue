@@ -1,42 +1,35 @@
 <template>
   <div class="create-warp">
-    <router-link to="/home">返回</router-link>
-    <h3>表头</h3>
+    <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
     <el-table :data="imageData" :border="true" style="width: 100%">
       <el-table-column
-        v-for="item in table"
-        :prop="item"
-        :label="item"
-        :key="item"
+        v-for="(item, idx) in table"
+        :prop="item.prop"
+        :label="item.label"
+        :key="idx"
+        align="center"
       >
       </el-table-column>
     </el-table>
-
-    <h3>内容</h3>
-    <p v-for="(itm, id) in table" :key="id">
-      {{ itm }}
-    </p>
-    <el-button type="primary">主要按钮</el-button>
   </div>
 </template>
 
 <script>
 import { exec } from "child_process";
+import { Fn } from "../../utils";
 export default {
   components: {},
   data() {
     return {
-      table: [],
-      // 镜像列表 表头
-      imageData: [
-        {
-          REPOSITORY: "123",
-          TAG: "123",
-          IMAGE: "12",
-          CREATED: "1",
-          SIZE: "1",
-        },
-      ],
+      table: [], // 镜像列表 表头
+      imageData: [], // 镜像列表 内容
+      keyMap: {
+        0: "repository",
+        1: "tag",
+        2: "image",
+        3: "time",
+        4: "size",
+      },
     };
   },
   computed: {},
@@ -44,18 +37,34 @@ export default {
   methods: {
     // 解析images 数据表头、列 信息
     dealImageStr(str) {
-      str.replace(new RegExp(" ", "gm"), "");
-      return str.replace(new RegExp(" +", "gm"), ",").split(",");
+      const current = Fn(str);
+      const newAry = [];
+      current.forEach((item, idx) => {
+        let obj = {};
+        obj.label = item;
+        obj.prop = this.keyMap[idx];
+        newAry.push(obj);
+      });
+      this.table = newAry;
     },
     // 解析 images 数据内容
     dealImageData(ary) {
-      let dataList = []
-      ary.pop();
-      ary.shift();
-      ary.forEach((item)=>{
-        console.log(this.dealImageStr(item));
-
-      })
+      const newAry = [];
+      ary.forEach((item) => {
+        const current = Fn(item);
+        let obj = {};
+        obj.repository = current[0]; // 储存库名
+        obj.tag = current[1]; // 标签名称
+        obj.image = current[2]; // image 镜像名称
+        obj.time = current[3]; // 创建时间
+        obj.size = current[4]; // 存储大小
+        newAry.push(obj);
+      });
+      this.imageData = newAry;
+    },
+    // 返回上一页
+    goBack() {
+      this.$router.back()
     },
   },
   created() {
@@ -63,10 +72,11 @@ export default {
       if (err) this.$message.error("镜像列表获取失败");
       let source = stdout.split("\n");
       // 获取表头
-      let ary = this.dealImageStr(source[0]);
-      this.table = ary.filter((item) => item !== "ID");
+      this.dealImageStr(source[0]);
       // 获取数据内容
-      this.imageData = this.dealImageData(source);
+      source.pop();
+      source.shift();
+      this.dealImageData(source);
     });
   },
   mounted() {},
