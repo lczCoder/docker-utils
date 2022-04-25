@@ -1,7 +1,16 @@
 <template>
   <div class="create-warp">
     <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
-    <el-table :data="imageData" :border="true" style="width: 100%" stripe>
+    <el-table
+      :data="imageData"
+      :border="true"
+      style="width: 100%"
+      stripe
+      v-loading="isLoading"
+      element-loading-text="镜像销毁中……"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
       <el-table-column type="index" align="center"></el-table-column>
       <el-table-column
         label="存储库"
@@ -31,7 +40,12 @@
       <el-table-column label="操作" align="center" fixed="right" width="200px">
         <template slot-scope="scope">
           <el-button size="mini">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteImage(scope.row.image)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -46,11 +60,22 @@ export default {
   data() {
     return {
       imageData: [], // 镜像列表 内容
+      isLoading: false, // 是否加载中
     };
   },
   computed: {},
   watch: {},
   methods: {
+    // 获取镜像列表
+    findImagesList() {
+      exec("docker images", (err, stdout) => {
+        if (err) this.$message.error("镜像列表获取失败");
+        let source = stdout.split("\n");
+        source.pop();
+        source.shift();
+        this.dealImageData(source); // 获取数据内容
+      });
+    },
     // 解析 images 数据内容
     dealImageData(ary) {
       const newAry = [];
@@ -66,19 +91,43 @@ export default {
       });
       this.imageData = newAry;
     },
+    // 删除镜像
+    deleteImage(id) {
+      this.$confirm(`此操作将永久删除该镜像【${id}】, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          exec(`docker rmi ${id}`, (err, data) => {
+            if (err) {
+              this.$message({
+                type: "warning",
+                message: "有基于当前镜像创建的容器,请先删除对应的容器",
+              });
+            } else {
+              this.isLoading = true;
+              let timer = setTimeout(() => {
+                this.$message({
+                  type: "success",
+                  message: "镜像删除成功!",
+                });
+                this.findImagesList();
+                this.isLoading = false;
+                clearTimeout(timer);
+              }, 2000);
+            }
+          });
+        })
+        .catch(() => {});
+    },
     // 返回上一页
     goBack() {
       this.$router.back();
     },
   },
   created() {
-    exec("docker images", (err, stdout) => {
-      if (err) this.$message.error("镜像列表获取失败");
-      let source = stdout.split("\n");
-      source.pop();
-      source.shift();
-      this.dealImageData(source); // 获取数据内容
-    });
+    this.findImagesList();
   },
   mounted() {},
   beforeCreate() {},
