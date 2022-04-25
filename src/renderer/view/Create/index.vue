@@ -142,7 +142,7 @@ export default {
 <style lang="scss" scoped>
 //@import url(); 引入公共css类
 .create-warp {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 </style>
