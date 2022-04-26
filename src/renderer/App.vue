@@ -26,4 +26,5 @@ body {
   cursor: url("https://wandu-fe.oss-cn-beijing.aliyuncs.com/cur/mouse.png"),
     auto;
 }
+
 </style>

@@ -1,6 +1,33 @@
 <template>
   <div class="shop-warp">
+    <!-- 背景图 搜索区域🔍 -->
+    <div class="bg-box">
     <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
+      <h1>海量镜像 下载即用</h1>
+      <div class="search-box">
+        <!-- 搜索 -->
+        <el-input
+          placeholder="请输入内容"
+          prefix-icon="el-icon-search"
+          v-model="searchKey"
+          size="lager"
+          :style="{ width: '400px' }"
+        />
+        <!-- 搜索按钮 -->
+        <el-button type="success" icon="el-icon-monitor" circle />
+      </div>
+    </div>
+    <!-- 精选精选 -->
+    <div class="recommend-box">
+      <h2>精选镜像</h2>
+      <el-carousel :interval="4000" type="card" height="230px">
+        <el-carousel-item v-for="item in imagesImg" :key="item.name">
+          <div>
+            <img :src="item.src" width="100%" height="230px" alt="" />
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
   </div>
 </template>
 
@@ -11,7 +38,16 @@ import md5 from "js-md5";
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      searchKey: "", // 搜索框输入值
+      imagesImg: [
+        { name: "ubuntu", src: require("../../assets/ubuntu-logo.png") },
+        { name: "node", src: require("../../assets/node-logo.png") },
+        { name: "alpine", src: require("../../assets/alpine-logo.png") },
+        { name: "nginx", src: require("../../assets/nginx-logo.png") },
+        { name: "python", src: require("../../assets/python-logo.png") },
+      ],
+    };
   },
   computed: {},
   watch: {},
@@ -40,6 +76,56 @@ export default {
 .shop-warp {
   width: 100%;
   height: 100vh;
-  border: 1px solid black;
+  overflow-y: scroll;
+  .bg-box {
+    width: 100%;
+    height: 40%;
+    background: url("../../assets/cool-background .png") no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    h1 {
+      color: #253042;
+      font-size: 50px;
+      text-align: center;
+      font-family: "Arial", "Microsoft YaHei", "黑体", "宋体";
+    }
+    .search-box {
+      width: 470px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+  .recommend-box {
+    width: 100%;
+    padding: 30px 50px 20px;
+
+    h2 {
+      color: #253042;
+      font-size: 36px;
+      text-align: left;
+      font-family: "Arial", "Microsoft YaHei", "黑体", "宋体";
+      margin-bottom: 30px;
+    }
+
+    .el-carousel__item {
+      height: 230px;
+      background: yellow;
+      border: 3px solid rgb(152, 149, 154);
+      border-radius: 10px;
+    }
+
+    .medium {
+      position: absolute;
+      display: inline-block;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
+  }
 }
 </style>
