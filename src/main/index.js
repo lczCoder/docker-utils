@@ -25,7 +25,8 @@ function createWindow() {
     minHeight:400,
     maxWidth:1300,
     maxHeight:700,
-    frame: true, //是否显示边框
+    frame: false, //是否显示边框
+    titleBarStyle: 'hiddenInset', // 系统默认红绿灯 按钮
     show:true,
     useContentSize: true,
     enableRemoteModule: true,

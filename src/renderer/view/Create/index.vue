@@ -144,6 +144,6 @@ export default {
 .create-warp {
   width: 100%;
   height: 100vh;
-
+  padding-top: 50px;
 }
 </style>

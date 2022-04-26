@@ -88,7 +88,7 @@ export default {
     justify-content: space-evenly;
     h1 {
       color: #253042;
-      font-size: 50px;
+      font-size: 42px;
       text-align: center;
       font-family: "Arial", "Microsoft YaHei", "黑体", "宋体";
     }
@@ -106,7 +106,7 @@ export default {
 
     h2 {
       color: #253042;
-      font-size: 36px;
+      font-size: 32px;
       text-align: left;
       font-family: "Arial", "Microsoft YaHei", "黑体", "宋体";
       margin-bottom: 30px;
@@ -114,7 +114,6 @@ export default {
 
     .el-carousel__item {
       height: 230px;
-      background: yellow;
       border: 3px solid rgb(152, 149, 154);
       border-radius: 10px;
     }
