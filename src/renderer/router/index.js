@@ -5,6 +5,7 @@ import Welcome from "../view/Welcome";
 import Home from '../view/Home'
 import Create from '../view/Create'
 import Shop from '../view/Shop'
+import Volume from '../view/Volume'
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ export default new Router({
       path: "/shop",
       name: "Shop",
       component: Shop,
+    },
+    {
+      path: "/volume",
+      name: "Volume",
+      component: Volume,
     },
     {
       path: "*",

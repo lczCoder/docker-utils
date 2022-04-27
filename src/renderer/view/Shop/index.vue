@@ -2,7 +2,7 @@
   <div class="shop-warp">
     <!-- 背景图 搜索区域🔍 -->
     <div class="bg-box">
-    <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
+      <el-page-header @back="goBack" content="镜像列表"> </el-page-header>
       <h1>海量镜像 下载即用</h1>
       <div class="search-box">
         <!-- 搜索 -->
@@ -12,9 +12,15 @@
           v-model="searchKey"
           size="lager"
           :style="{ width: '400px' }"
+          clearable
         />
         <!-- 搜索按钮 -->
-        <el-button type="success" icon="el-icon-monitor" circle />
+        <el-button
+          type="success"
+          icon="el-icon-monitor"
+          circle
+          @click="searchHandle"
+        />
       </div>
     </div>
     <!-- 精选精选 -->
@@ -39,6 +45,7 @@ export default {
   components: {},
   data() {
     return {
+      show: false,
       searchKey: "", // 搜索框输入值
       imagesImg: [
         { name: "ubuntu", src: require("../../assets/ubuntu-logo.png") },
@@ -55,6 +62,23 @@ export default {
     // 返回上一页
     goBack() {
       this.$router.back();
+    },
+    // 镜像搜索
+    searchHandle() {
+      this.show = !this.show;
+      // if (this.searchKey !== "" && this.searchKey !== " ") {
+      //   const loading = this.$loading({
+      //     lock: true,
+      //     text: "镜像资源查询中",
+      //     spinner: "el-icon-loading",
+      //     background: "rgba(0, 0, 0, 0.7)",
+      //   });
+      //   exec(`docker search ${this.searchKey}`, (err, res, resErr) => {
+      //     console.log("stdout:", res);
+      //     console.log("stderr:", resErr);
+      //     loading.close();
+      //   });
+      // }
     },
   },
   created() {
