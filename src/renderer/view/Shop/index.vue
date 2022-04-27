@@ -7,12 +7,13 @@
       <div class="search-box">
         <!-- 搜索 -->
         <el-input
-          placeholder="请输入内容"
+          placeholder="请输入要查询的镜像名"
           prefix-icon="el-icon-search"
           v-model="searchKey"
           size="lager"
           :style="{ width: '400px' }"
           clearable
+          @keyup.enter.native="searchHandle"
         />
         <!-- 搜索按钮 -->
         <el-button
@@ -34,19 +35,27 @@
         </el-carousel-item>
       </el-carousel>
     </div>
+    <ResultDialog
+      :dialogVisible="dialogVisible"
+      :listData="searchImgList"
+      @DialogShow="DialogShowHandle"
+    />
   </div>
 </template>
 
 <script>
 import { exec } from "child_process";
-import md5 from "js-md5";
-
+import { regCmdStr } from "../../utils";
+import ResultDialog from "./ResultDialog";
 export default {
-  components: {},
+  components: {
+    ResultDialog,
+  },
   data() {
     return {
-      show: false,
+      dialogVisible: false,
       searchKey: "", // 搜索框输入值
+      // 推荐镜像本地展示
       imagesImg: [
         { name: "ubuntu", src: require("../../assets/ubuntu-logo.png") },
         { name: "node", src: require("../../assets/node-logo.png") },
@@ -54,6 +63,8 @@ export default {
         { name: "nginx", src: require("../../assets/nginx-logo.png") },
         { name: "python", src: require("../../assets/python-logo.png") },
       ],
+      // 镜像查询列表
+      searchImgList: [],
     };
   },
   computed: {},
@@ -63,22 +74,41 @@ export default {
     goBack() {
       this.$router.back();
     },
+    // 子组件关闭dialog
+    DialogShowHandle() {
+      this.dialogVisible = false;
+    },
     // 镜像搜索
     searchHandle() {
-      this.show = !this.show;
-      // if (this.searchKey !== "" && this.searchKey !== " ") {
-      //   const loading = this.$loading({
-      //     lock: true,
-      //     text: "镜像资源查询中",
-      //     spinner: "el-icon-loading",
-      //     background: "rgba(0, 0, 0, 0.7)",
-      //   });
-      //   exec(`docker search ${this.searchKey}`, (err, res, resErr) => {
-      //     console.log("stdout:", res);
-      //     console.log("stderr:", resErr);
-      //     loading.close();
-      //   });
-      // }
+      if (this.searchKey !== "" && this.searchKey !== " ") {
+        this.$showLoading.show();
+        exec(`docker search ${this.searchKey} --no-trunc`, (err, res, resErr) => {
+          this.$showLoading.hide();
+          this.searchKey = "";
+          this.dialogVisible = true;
+          this.dealCmdStr(res);
+        });
+      }
+    },
+    // 镜像列表格式化处理
+    dealCmdStr(str) {
+      let source = str.split("\n");
+      source.pop();
+      source.shift();
+      let newAry = [];
+      source.forEach((item) => {
+        const current = regCmdStr(item);
+        if (current.length >= 3) {
+          // >3 搜索镜像数据较为完整,符合展示规范
+          let obj = {};
+          obj.name = current[0]; // 镜像名称
+          obj.explain = current[1]; // 镜像介绍
+          obj.star = current[2]; // 镜像star
+          obj.official = current[3]; // 官方镜像
+          newAry.push(obj);
+        }
+      });
+      this.searchImgList = newAry;
     },
   },
   created() {
@@ -138,7 +168,6 @@ export default {
 
     .el-carousel__item {
       height: 230px;
-      border: 3px solid rgb(152, 149, 154);
       border-radius: 10px;
     }
 

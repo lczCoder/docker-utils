@@ -1,65 +1,62 @@
 <template>
-  <div class="container" v-if="show">
-    <div class="loader">
-      <div class="box">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+  <transition name="fade">
+    <div class="container" v-if="show">
+      <div class="loader">
+        <div class="box">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="box">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="box">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="box">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-      <div class="box">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="box">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="box">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+      <h5>正在加载中……</h5>
     </div>
-      <el-page-header @back="$router.back()" content="镜像列表"> </el-page-header>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
-  components: {},
-  data() {
-    return {
-      show: true,
-    };
+  name: "loading001",
+  props: {
+    show: Boolean,
   },
-  computed: {},
-  watch: {},
-  methods: {},
-  created() {},
-  mounted() {},
-  beforeCreate() {},
-  beforeMount() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  activated() {},
 };
 </script>
 <style lang="scss" scoped>
 .container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 1);
+  h5{
+    position:absolute;
+    bottom: 100px;
+  }
 }
 .loader {
   --size: 32px;

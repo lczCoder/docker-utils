@@ -54,7 +54,7 @@
 
 <script>
 import { exec } from "child_process";
-import { Fn } from "../../utils";
+import { regCmdStr } from "../../utils";
 export default {
   components: {},
   data() {
@@ -80,7 +80,7 @@ export default {
     dealImageData(ary) {
       const newAry = [];
       ary.forEach((item) => {
-        const current = Fn(item);
+        const current = regCmdStr(item);
         let obj = {};
         obj.repository = current[0]; // 储存库名
         obj.tag = current[1]; // 标签名称
