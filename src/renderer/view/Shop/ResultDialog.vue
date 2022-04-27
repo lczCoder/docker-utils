@@ -12,7 +12,9 @@
             <el-popover trigger="hover" placement="top" width="100">
               <span>{{ scope.row.name }}</span>
               <div slot="reference" class="name-wrapper">
-                <el-tag size="small">{{ scope.row.name }}</el-tag>
+                <el-tag size="small" class="image-name">{{
+                  scope.row.name
+                }}</el-tag>
               </div>
             </el-popover>
           </template>
@@ -23,12 +25,11 @@
               <div class="popover-box">
                 <div class="popover-box-content">
                   <p class="popover-box-en">{{ scope.row.explain }}</p>
-                  <el-link type="primary" class="popover-box-ch">{{
-                    enToCH
-                  }}</el-link>
+                  <el-link type="primary" class="popover-box-ch">
+                    {{ enToCH }}
+                  </el-link>
                 </div>
                 <el-button
-                  v-show="enToCH != ''"
                   type="primary"
                   class="translate"
                   :loading="btnLoading"
@@ -145,5 +146,11 @@ export default {
     text-align: center;
     font-size: 12px;
   }
+}
+.image-name {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
