@@ -49,6 +49,8 @@
         </template>
       </el-table-column>
     </el-table>
+    <p>{{errkey}}</p>
+    <p>{{pathKey}}</p>
   </div>
 </template>
 
@@ -61,6 +63,8 @@ export default {
     return {
       imageData: [], // 镜像列表 内容
       isLoading: false, // 是否加载中
+      errkey:'',
+      pathKey:''
     };
   },
   computed: {},
@@ -69,7 +73,10 @@ export default {
     // 获取镜像列表
     findImagesList() {
       exec("docker images", (err, stdout) => {
-        if (err) this.$message.error("镜像列表获取失败");
+        if (err) {
+          this.errkey = err;
+          this.$message.error("镜像列表获取失败");
+          }
         let source = stdout.split("\n");
         source.pop();
         source.shift();
@@ -127,6 +134,7 @@ export default {
     },
   },
   created() {
+    this.pathKey = process.env.PATH
     this.findImagesList();
   },
   mounted() {},

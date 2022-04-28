@@ -26,7 +26,7 @@ body {
 body {
   font-family: "Source Sans Pro", sans-serif;
   cursor: url("https://wandu-fe.oss-cn-beijing.aliyuncs.com/cur/mouse.png"),
-    auto;
+    auto !important;
 }
 .drop-box {
   position: fixed;

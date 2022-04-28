@@ -11,7 +11,7 @@ Vue.use(loading001);
 Vue.use(ElementUI);
 
 if (!process.env.IS_WEB) Vue.use(require("vue-electron"));
-Vue.config.productionTip = true;
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({

@@ -67,8 +67,7 @@
 </template>
 
 <script>
-import md5 from "js-md5";
-import $axios from "axios";
+// import md5 from "js-md5";
 export default {
   components: {},
   props: {
