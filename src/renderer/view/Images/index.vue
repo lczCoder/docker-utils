@@ -39,23 +39,18 @@
       ></el-table-column>
       <el-table-column label="操作" align="center" fixed="right" width="200px">
         <template slot-scope="scope">
-          <el-dropdown placement="bottom">
-            <el-button size="mini">编辑</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-plus">
-                <span @click="imageCopy(scope.row.image, scope.row.repository)"
-                  >镜像复制</span
-                >
-              </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-printer">
-                <span @click="imageExport(scope.row.image)">镜像导出</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-plus"
+            @click="imageCopy(scope.row.image, scope.row.repository)"
+            >复制</el-button
+          >
           <el-button
             size="mini"
             type="danger"
-            @click="deleteImage(scope.row.image)"
+            icon="el-icon-delete"
+            @click="deleteImage(scope.row.image, scope.row.repository)"
             >删除</el-button
           >
         </template>
@@ -111,8 +106,8 @@ export default {
       this.imageData = newAry;
     },
     // 删除镜像
-    deleteImage(id) {
-      this.$confirm(`此操作将永久删除该镜像【${id}】, 是否继续?`, "提示", {
+    deleteImage(id, name) {
+      this.$confirm(`此操作将永久删除该镜像【${name}】, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -155,30 +150,21 @@ export default {
               message: "镜像名称不能与原镜像名称相同",
             });
           } else {
-            exec(`docker tag ${id} ${value}`, (err, stdout, errstd) => {
-              console.log(err, stdout, errstd);
+            exec(`docker tag ${id} ${value}`, (err) => {
+              this.findImagesList();
               err
                 ? this.$message.error("镜像复制失败,请输入符合规范的镜像名称")
                 : this.$message.success("镜像复制成功!");
-              this.findImagesList();
             });
           }
-          // this.$message({
-          //   type: "success",
-          //   message: "你的邮箱是: " + value,
-          // });
         })
         .catch(() => {
           return;
         });
     },
-    // 镜像导出
-    imageExport(id) {},
-    // 镜像导入
-    imageImport(id) {},
   },
   created() {
-    this.findImagesList();
+    this.findImagesList(); // 初始化获取镜像列表
   },
   mounted() {},
   beforeCreate() {},
