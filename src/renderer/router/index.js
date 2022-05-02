@@ -3,9 +3,10 @@ import Router from "vue-router";
 
 import Welcome from "../view/Welcome";
 import Home from '../view/Home'
-import Create from '../view/Create'
+import Images from '../view/Images'
 import Shop from '../view/Shop'
 import Volume from '../view/Volume'
+import Create from '../view/Create'
 
 Vue.use(Router);
 
@@ -14,7 +15,6 @@ export default new Router({
     {
       path: "/",
       name: "Welcome",
-      // component: require("@/components/Home").default,
       component: Welcome,
     },
     {
@@ -23,9 +23,14 @@ export default new Router({
       component: Home,
     },
     {
-      path: "/create",
-      name: "Create",
-      component: Create,
+      path: "/images",
+      name: "Images",
+      component: Images,
+    },
+    {
+      path:"/create",
+      name:'Create',
+      component: Create
     },
     {
       path: "/shop",

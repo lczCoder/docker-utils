@@ -130,7 +130,6 @@ export default {
 .shop-warp {
   width: 100%;
   height: 100vh;
-  overflow-y: scroll;
   .bg-box {
     width: 100%;
     height: 40%;

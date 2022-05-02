@@ -1,69 +1,67 @@
 <template>
-  <div class="">
-    <el-dialog
-      title="镜像列表"
-      :visible="dialogVisible"
-      width="70%"
-      :before-close="onCloseHandle"
-    >
-      <el-table :data="listData">
-        <el-table-column label="镜像名称" width="150" align="left">
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top" width="100">
-              <span>{{ scope.row.name }}</span>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="small" class="image-name">{{
-                  scope.row.name
-                }}</el-tag>
+  <el-dialog
+    title="镜像列表"
+    :visible="dialogVisible"
+    width="70%"
+    :before-close="onCloseHandle"
+  >
+    <el-table :data="listData">
+      <el-table-column label="镜像名称" width="150" align="left">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top" width="100">
+            <span>{{ scope.row.name }}</span>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="small" class="image-name">{{
+                scope.row.name
+              }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column label="镜像介绍" align="left" width="250">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top" @hide="hideClear">
+            <div class="popover-box">
+              <div class="popover-box-content">
+                <p class="popover-box-en">{{ scope.row.explain }}</p>
+                <el-link type="primary" class="popover-box-ch">
+                  {{ enToCH }}
+                </el-link>
               </div>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column label="镜像介绍" align="left" width="250">
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top" @hide="hideClear">
-              <div class="popover-box">
-                <div class="popover-box-content">
-                  <p class="popover-box-en">{{ scope.row.explain }}</p>
-                  <el-link type="primary" class="popover-box-ch">
-                    {{ enToCH }}
-                  </el-link>
-                </div>
-                <el-button
-                  type="primary"
-                  class="translate"
-                  :loading="btnLoading"
-                  size="small"
-                  @click="translateHandle(scope.row.explain)"
-                >
-                  翻译
-                </el-button>
-              </div>
-              <div slot="reference" class="name-wrapper">
-                <p class="explain-text">{{ scope.row.explain }}</p>
-              </div>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column
-          property="star"
-          label="Star✨"
-          width="100"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          property="official"
-          label="官方镜像"
-          align="center"
-        ></el-table-column>
-        <el-table-column label="操作" align="center" width="100">
-          <template>
-            <el-button type="success" size="small">下载</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-dialog>
-  </div>
+              <el-button
+                type="primary"
+                class="translate"
+                :loading="btnLoading"
+                size="small"
+                @click="translateHandle(scope.row.explain)"
+              >
+                翻译
+              </el-button>
+            </div>
+            <div slot="reference" class="name-wrapper">
+              <p class="explain-text">{{ scope.row.explain }}</p>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column
+        property="star"
+        label="Star✨"
+        width="100"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        property="official"
+        label="官方镜像"
+        align="center"
+      ></el-table-column>
+      <el-table-column label="操作" align="center" width="100">
+        <template>
+          <el-button type="success" size="small">下载</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-dialog>
 </template>
 
 <script>
@@ -114,7 +112,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-//@import url(); 引入公共css类
+
 .explain-text {
   word-break: break-all;
   text-overflow: ellipsis;

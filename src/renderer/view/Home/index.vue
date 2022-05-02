@@ -1,12 +1,12 @@
 <template>
   <div class="home-warp">
     <div class="all">
-      <div 
-        v-for="(item, idx) in viewList" 
-        :key="idx" 
+      <div
+        v-for="(item, idx) in viewList"
+        :key="idx"
         :class="item.p_class"
-         @click='jumpPage(item.key)' 
-        >
+        @click="jumpPage(item.key)"
+      >
         <div v-if="item.p_class == 'center'" class="explainer">
           {{ item.c_name }}
         </div>
@@ -22,25 +22,25 @@ export default {
   data() {
     return {
       viewList: [
-        { name: "🔌 镜像制作", p_class: "lefter",key:'create' },
-        { name: "🎞 镜像列表", p_class: "left",key:'images' },
+        { name: "📀 镜像列表", p_class: "lefter", key: "images" },
+        { name: "🎞 容器列表", p_class: "left", key: "container" },
         {
-          name: "📀 容器列表",
+          name: "🏭 容器工厂",
           p_class: "center",
           c_class: "explainer",
           // c_name: "开始",
-          key:'container',
+          key: "create",
         },
-        { name: "🏷 数据卷挂载", p_class: "right", key:'volume' },
+        { name: "🏷 数据卷挂载", p_class: "right", key: "volume" },
         { name: "🛒 镜像商店", p_class: "righter", key: "shop" },
       ],
-      routerMap:{
-        create:'create',
-        images:'images',
-        container:'container',
-        volume:'volume',
-        shop:'shop',
-      }
+      routerMap: {
+        create: "create",
+        images: "images",
+        container: "container",
+        volume: "volume",
+        shop: "shop",
+      },
     };
   },
   methods: {

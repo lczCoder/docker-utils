@@ -13,7 +13,7 @@
       <div class="pl__dot"></div>
       <div class="pl__dot"></div>
       <div class="pl__dot"></div>
-      <div class="pl__text">Loading…</div>
+      <div class="pl__text">启动中</div>
     </div>
   </div>
 </template>

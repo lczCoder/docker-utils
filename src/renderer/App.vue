@@ -23,11 +23,17 @@ body {
   width: 100%;
   height: 100%;
 }
+
 body {
   font-family: "Source Sans Pro", sans-serif;
   cursor: url("https://wandu-fe.oss-cn-beijing.aliyuncs.com/cur/mouse.png"),
     auto !important;
 }
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
 .drop-box {
   position: fixed;
   z-index: 99999 !important;
