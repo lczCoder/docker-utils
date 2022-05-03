@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="ZY2Z-TiaMthCMwKG_cw0" name="首页">
-        <mxGraphModel dx="889" dy="747" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="none" math="0" shadow="1">
+        <mxGraphModel dx="1429" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="none" math="0" shadow="1">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -229,6 +229,14 @@
                 <mxCell id="4YdsoaOoLgvMXguQuDrc-0" value="&lt;h1&gt;&lt;font color=&quot;#ffffff&quot; style=&quot;font-size: 18px&quot;&gt;在线翻译&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;font color=&quot;#ffffff&quot;&gt;在查询镜像文件的时候，有个详情描述，用户可以点击列表中的翻译图标进行中文翻译&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=14;fontColor=#000000;" parent="sYQatL_ZUaPR5SQjwAD3-1" vertex="1">
                     <mxGeometry x="600" y="540" width="250" height="120" as="geometry"/>
                 </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="BUH-UkCZ4VvFHRdcdEK2" name="镜像列表">
+        <mxGraphModel dx="643" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1390" math="0" shadow="0">
+            <root>
+                <mxCell id="k_AD4wh6NUf_5AYfPmYU-0"/>
+                <mxCell id="k_AD4wh6NUf_5AYfPmYU-1" parent="k_AD4wh6NUf_5AYfPmYU-0"/>
             </root>
         </mxGraphModel>
     </diagram>

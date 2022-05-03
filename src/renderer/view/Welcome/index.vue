@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  mounted() {
+  created() {
     let timer = setTimeout(() => {
       this.$router.push("/home");
       clearTimeout(timer);

@@ -113,7 +113,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          exec(`docker rmi ${id}`, (err, data) => {
+          exec(`docker rmi ${name}`, (err, data) => {
             if (err) {
               this.$message({
                 type: "warning",
