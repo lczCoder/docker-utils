@@ -83,7 +83,6 @@ export default {
   methods: {
     // 介绍弹出框消失事件触发
     hideClear() {
-      // console.log("消失了");
       this.enToCH = "";
     },
     // 关闭弹窗

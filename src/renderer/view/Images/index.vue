@@ -137,7 +137,6 @@ export default {
     },
     // 复制镜像
     imageCopy(id, name) {
-      console.log("复制镜像", id);
       this.$prompt("请输入新镜像名称", "提示", {
         confirmButtonText: "复制",
         cancelButtonText: "取消",
