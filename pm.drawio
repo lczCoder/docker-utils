@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="ZY2Z-TiaMthCMwKG_cw0" name="首页">
-        <mxGraphModel dx="1429" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="none" math="0" shadow="1">
+        <mxGraphModel dx="1009" dy="747" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="none" math="0" shadow="1">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -80,10 +80,13 @@
         </mxGraphModel>
     </diagram>
     <diagram id="SzhB8Du72048qasYa-aC" name="容器创建">
-        <mxGraphModel dx="1128" dy="747" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
+        <mxGraphModel dx="841" dy="623" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" math="0" shadow="0">
             <root>
                 <mxCell id="27uLdjD5mK71LCT6hX2T-0"/>
                 <mxCell id="27uLdjD5mK71LCT6hX2T-1" parent="27uLdjD5mK71LCT6hX2T-0"/>
+                <mxCell id="gLwVRf4GaK1Xq6DHgBcj-0" value="docker&amp;nbsp; run&amp;nbsp; -itd --name=test&amp;nbsp; -p 80:80&amp;nbsp; -v xxxx:xxxx&amp;nbsp; &amp;lt;镜像&amp;gt;:tag" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="27uLdjD5mK71LCT6hX2T-1">
+                    <mxGeometry x="20" y="30" width="350" height="20" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>

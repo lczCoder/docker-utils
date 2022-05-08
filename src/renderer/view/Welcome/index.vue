@@ -24,7 +24,7 @@ export default {
     let timer = setTimeout(() => {
       this.$router.push("/home");
       clearTimeout(timer);
-    }, 3000);
+    }, 500);
   },
 };
 </script>

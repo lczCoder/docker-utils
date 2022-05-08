@@ -3,12 +3,45 @@
     <!-- 顶部拖拽区域 -->
     <div class="drop-box"></div>
     <router-view></router-view>
+    <VExit :visible="visible" @onClose="closeHandle" @onAffirm="affirmHandle" />
   </div>
 </template>
 
 <script>
+const { ipcRenderer } = require("electron");
+import VExit from "./components/V-Exit";
 export default {
   name: "docker-utils",
+  components: {
+    VExit,
+  },
+  data() {
+    return {
+      visible: false,
+    };
+  },
+  methods: {
+    // 最小化
+    closeHandle() {
+      this.visible = false
+      // 延迟100毫秒后最小化，消除最小化视图中的弹窗样式
+      let timer = setTimeout(() => {
+      ipcRenderer.send('minimize-app')
+        clearTimeout(timer);
+      },100)
+    },
+    // 退出
+    affirmHandle() {
+      this.visible = false
+      
+      ipcRenderer.send('exit-app')
+    },
+  },
+  mounted() {
+    ipcRenderer.on("close-app", () => {
+      this.visible = true;
+    });
+  },
 };
 </script>
 
@@ -22,6 +55,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  background-color: #fff !important;
 }
 
 body {
@@ -30,8 +64,8 @@ body {
     auto !important;
 }
 
-body::-webkit-scrollbar{
-    display: none;
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .drop-box {

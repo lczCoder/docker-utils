@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import "../renderer/store";
 /**
  * Set `__static` path to static files in production
@@ -20,6 +20,7 @@ if (process.platform !== "win32") {
 }
 
 let mainWindow;
+let lock = true
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:3000`
@@ -46,7 +47,10 @@ function createWindow() {
   });
 
   mainWindow.loadURL(winURL);
-
+  mainWindow.on("close", (e) => {
+    lock && e.preventDefault();
+    mainWindow.webContents.send('close-app')
+  });
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
@@ -65,3 +69,22 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+// 多选文件
+ipcMain.on("select-volume-files", (event) => {
+  const result = dialog.showOpenDialog(mainWindow, {
+    properties: ["openDirectory",'multiSelections','createDirectory','promptToCreate'],
+  });
+  result && event.sender.send("volume-files-result", result);
+});
+
+// 最小化
+ipcMain.on("minimize-app", () => {
+  mainWindow.minimize();
+})
+
+// 退出
+ipcMain.on("exit-app", () => {
+  lock = false
+  app.quit();
+})
