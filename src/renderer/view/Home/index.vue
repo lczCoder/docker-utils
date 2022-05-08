@@ -22,17 +22,16 @@ export default {
   data() {
     return {
       viewList: [
-        { name: "📀 镜像列表", p_class: "lefter", key: "images" },
-        { name: "🎞 容器列表", p_class: "left", key: "container" },
+        { name: "镜像列表", p_class: "lefter", key: "images" },
+        { name: "容器列表", p_class: "left", key: "container" },
         {
-          name: "🏭 容器工厂",
+          name: "容器工厂",
           p_class: "center",
           c_class: "explainer",
-          // c_name: "开始",
           key: "create",
         },
-        { name: "🏷 数据卷挂载", p_class: "right", key: "volume" },
-        { name: "🛒 镜像商店", p_class: "righter", key: "shop" },
+        { name: "数据卷挂载", p_class: "right", key: "volume" },
+        { name: "镜像商店", p_class: "righter", key: "shop" },
       ],
       routerMap: {
         create: "create",
