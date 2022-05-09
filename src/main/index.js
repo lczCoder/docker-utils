@@ -20,7 +20,7 @@ if (process.platform !== "win32") {
 }
 
 let mainWindow;
-let lock = true
+let lock = true;
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:3000`
@@ -34,7 +34,7 @@ function createWindow() {
     minHeight: 400,
     maxWidth: 1300,
     maxHeight: 700,
-    frame: false, //是否显示边框
+    frame: process.platform == "darwin" ? false : true, //是否显示边框
     titleBarStyle: "hiddenInset", // 系统默认红绿灯 按钮
     show: true,
     useContentSize: true,
@@ -49,7 +49,7 @@ function createWindow() {
   mainWindow.loadURL(winURL);
   mainWindow.on("close", (e) => {
     lock && e.preventDefault();
-    mainWindow.webContents.send('close-app')
+    mainWindow.webContents.send("close-app");
   });
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -73,7 +73,12 @@ app.on("activate", () => {
 // 多选文件
 ipcMain.on("select-volume-files", (event) => {
   const result = dialog.showOpenDialog(mainWindow, {
-    properties: ["openDirectory",'multiSelections','createDirectory','promptToCreate'],
+    properties: [
+      "openDirectory",
+      "multiSelections",
+      "createDirectory",
+      "promptToCreate",
+    ],
   });
   result && event.sender.send("volume-files-result", result);
 });
@@ -81,10 +86,10 @@ ipcMain.on("select-volume-files", (event) => {
 // 最小化
 ipcMain.on("minimize-app", () => {
   mainWindow.minimize();
-})
+});
 
 // 退出
 ipcMain.on("exit-app", () => {
-  lock = false
+  lock = false;
   app.quit();
-})
+});

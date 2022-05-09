@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 顶部拖拽区域 -->
-    <div class="drop-box"></div>
+    <div v-if="env" class="drop-box"></div>
     <router-view></router-view>
     <VExit :visible="visible" @onClose="closeHandle" @onAffirm="affirmHandle" />
   </div>
@@ -17,7 +17,8 @@ export default {
   },
   data() {
     return {
-      visible: false,
+      visible: false, // 退出系统确认弹窗
+      env:true, // window系统 消除顶部拖动区域
     };
   },
   methods: {
@@ -36,6 +37,9 @@ export default {
       
       ipcRenderer.send('exit-app')
     },
+  },
+  created() {
+    this.env = process.platform=='darwin'?true:false
   },
   mounted() {
     ipcRenderer.on("close-app", () => {
