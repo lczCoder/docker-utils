@@ -34,7 +34,6 @@ export default {
     // 退出
     affirmHandle() {
       this.visible = false
-      
       ipcRenderer.send('exit-app')
     },
   },

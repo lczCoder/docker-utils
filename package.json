@@ -55,6 +55,7 @@
   "dependencies": {
     "element-ui": "^2.9.2",
     "fix-path": "^4.0.0",
+    "jquery": "^3.6.0",
     "js-md5": "^0.7.3",
     "shell-path": "^3.0.0",
     "vue": "^2.5.16",
