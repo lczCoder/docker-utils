@@ -1,5 +1,7 @@
 <template>
   <div class="create-warp">
+    <el-page-header @back="$router.back()" content="容器创建工厂">
+    </el-page-header>
     <svg
       id="svg-source"
       height="0"
@@ -103,7 +105,7 @@
                 </g>
               </svg>
             </div>
-            设置端口映射关系（可选）
+            设置端口映射关系
           </li>
           <li class="ship">
             <div class="icon">
@@ -113,92 +115,28 @@
                 </g>
               </svg>
             </div>
-            数据卷挂载（可选）
+            数据卷挂载
           </li>
         </ul>
       </div>
-
+      <!-- 滚动指示条 -->
       <div id="border">
         <div id="line" class="one"></div>
       </div>
-
+      <!-- 右侧展示区域 -->
       <div id="right-side">
-        <div id="first" class="active">
-          <div class="icon big">
-            <svg viewBox="0 0 32 32">
-              <g filter="">
-                <use xlink:href="#shopping-cart"></use>
-              </g>
-            </svg>
-          </div>
-
-          <h1>Choose your gift</h1>
-
-          <p>
-            适用浏览器：360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.<br />不支持IE8及以下浏览器。
-          </p>
-        </div>
-        <div id="second">
-          <div class="icon big">
-            <svg viewBox="0 0 32 32">
-              <g filter="">
-                <use xlink:href="#credit-card"></use>
-              </g>
-            </svg>
-          </div>
-
-          <h1>Pay for it</h1>
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at
-            viverra est, eu finibus mauris. Quisque tempus vestibulum fringilla.
-            Morbi tortor eros, sollicitudin eu arcu sit amet, aliquet sagittis
-            dolor.
-          </p>
-        </div>
-        <div id="third">
-          <div class="icon big">
-            <svg viewBox="0 0 32 32">
-              <g filter="">
-                <use xlink:href="#gift"></use>
-              </g>
-            </svg>
-          </div>
-
-          <h1>We will wrap it</h1>
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at
-            viverra est, eu finibus mauris. Quisque tempus vestibulum fringilla.
-            Morbi tortor eros, sollicitudin eu arcu sit amet, aliquet sagittis
-            dolor.
-          </p>
-        </div>
-        <div id="fourth">
-          <div class="icon big">
-            <svg viewBox="0 0 32 32">
-              <g filter="">
-                <use xlink:href="#package"></use>
-              </g>
-            </svg>
-          </div>
-
-          <h1>Ship it</h1>
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at
-            viverra est, eu finibus mauris. Quisque tempus vestibulum fringilla.
-            Morbi tortor eros, sollicitudin eu arcu sit amet, aliquet sagittis
-            dolor.
-          </p>
-        </div>
+        <div id="first" class="active">初始化容器</div>
+        <div id="second">容器名称</div>
+        <div id="third">端口映射</div>
+        <div id="fourth">数据卷</div>
       </div>
+      <el-button class="btn-next" type="warning">下一步</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from "jquery";
 export default {
   components: {},
   data() {
@@ -301,7 +239,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .create-warp {
-  // background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url("../../assets/cool-background .png") no-repeat;
+  background-size: cover;
   width: 100%;
   height: 100vh;
 }
@@ -330,14 +273,11 @@ export default {
 #wrapper {
   width: 80%;
   height: 70%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  position: relative;
+  margin-top: 10px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+  box-shadow: 10 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -476,22 +416,7 @@ export default {
   -ms-flex-direction: column;
   flex-direction: column;
 }
-#right-side #first h1,
-#right-side #second h1,
-#right-side #third h1,
-#right-side #fourth h1 {
-  font-weight: 800;
-  color: #333;
-}
-#right-side #first p,
-#right-side #second p,
-#right-side #third p,
-#right-side #fourth p {
-  color: #333;
-  font-weight: 500;
-  padding-left: 30px;
-  padding-right: 30px;
-}
+
 #right-side #first.active,
 #right-side #second.active,
 #right-side #third.active,
@@ -500,5 +425,11 @@ export default {
   opacity: 1;
   -webkit-transition: all 0.6s ease-in-out;
   transition: all 0.6s ease-in-out;
+}
+
+.btn-next {
+  position: fixed;
+  bottom: 100px;
+  right: 120px;
 }
 </style>
