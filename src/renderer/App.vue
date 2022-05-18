@@ -8,18 +8,18 @@
 </template>
 
 <script>
-const { ipcRenderer } = require("electron");
-import VExit from "./components/V-Exit";
+const { ipcRenderer } = require('electron')
+import VExit from './components/V-Exit'
 export default {
-  name: "docker-utils",
+  name: 'docker-utils',
   components: {
     VExit,
   },
   data() {
     return {
       visible: false, // 退出系统确认弹窗
-      env:true, // window系统 消除顶部拖动区域
-    };
+      env: true, // window系统 消除顶部拖动区域
+    }
   },
   methods: {
     // 最小化
@@ -27,9 +27,9 @@ export default {
       this.visible = false
       // 延迟100毫秒后最小化，消除最小化视图中的弹窗样式
       let timer = setTimeout(() => {
-      ipcRenderer.send('minimize-app')
-        clearTimeout(timer);
-      },100)
+        ipcRenderer.send('minimize-app')
+        clearTimeout(timer)
+      }, 100)
     },
     // 退出
     affirmHandle() {
@@ -38,14 +38,14 @@ export default {
     },
   },
   created() {
-    this.env = process.platform=='darwin'?true:false
+    this.env = process.platform == 'darwin' ? true : false
   },
   mounted() {
-    ipcRenderer.on("close-app", () => {
-      this.visible = true;
-    });
+    ipcRenderer.on('close-app', () => {
+      this.visible = true
+    })
   },
-};
+}
 </script>
 
 <style>
@@ -62,8 +62,8 @@ body {
 }
 
 body {
-  font-family: "Source Sans Pro", sans-serif;
-  cursor: url("https://wandu-fe.oss-cn-beijing.aliyuncs.com/cur/mouse.png"),
+  font-family: 'Source Sans Pro', sans-serif;
+  cursor: url('https://wandu-fe.oss-cn-beijing.aliyuncs.com/cur/mouse.png'),
     auto !important;
 }
 

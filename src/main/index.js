@@ -49,6 +49,7 @@ function createWindow() {
   mainWindow.loadURL(winURL);
   mainWindow.on("close", (e) => {
     lock && e.preventDefault();
+    mainWindow.show()
     mainWindow.webContents.send("close-app");
   });
   mainWindow.on("closed", () => {

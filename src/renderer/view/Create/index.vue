@@ -75,7 +75,7 @@
       </g>
     </svg>
     <el-steps
-      :style="{ width: '500px' }"
+      :style="{ width: '800px' }"
       :active="stepIdx"
       finish-status="success"
       align-center
