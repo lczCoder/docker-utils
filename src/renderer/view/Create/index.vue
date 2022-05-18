@@ -77,58 +77,33 @@
     <div id="wrapper">
       <div id="left-side">
         <ul>
-          <li class="choose active">
-            <div class="icon active">
+          <li
+            v-for="(item, idx) in tabList"
+            :key="idx"
+            :class="[item.class, tabIndex == idx ? 'active' : '']"
+            @click="clickTabHandle(idx)"
+          >
+            <div :class="['icon', tabIndex == idx ? 'active' : '']">
               <svg viewBox="0 0 32 32">
                 <g filter="">
-                  <use xlink:href="#shopping-cart"></use>
+                  <use :xlink:href="item.svg"></use>
                 </g>
               </svg>
             </div>
-            初始化容器
-          </li>
-          <li class="pay">
-            <div class="icon">
-              <svg viewBox="0 0 32 32">
-                <g filter="">
-                  <use xlink:href="#credit-card"></use>
-                </g>
-              </svg>
-            </div>
-            设置容器名称
-          </li>
-          <li class="wrap">
-            <div class="icon">
-              <svg viewBox="0 0 32 32">
-                <g filter="">
-                  <use xlink:href="#gift"></use>
-                </g>
-              </svg>
-            </div>
-            设置端口映射关系
-          </li>
-          <li class="ship">
-            <div class="icon">
-              <svg viewBox="0 0 32 32">
-                <g filter="">
-                  <use xlink:href="#package"></use>
-                </g>
-              </svg>
-            </div>
-            数据卷挂载
+            {{ item.name }}
           </li>
         </ul>
       </div>
       <!-- 滚动指示条 -->
       <div id="border">
-        <div id="line" class="one"></div>
+        <div id="line" :class="[tabMap[tabIndex]]"></div>
       </div>
       <!-- 右侧展示区域 -->
       <div id="right-side">
-        <div id="first" class="active">初始化容器</div>
-        <div id="second">容器名称</div>
-        <div id="third">端口映射</div>
-        <div id="fourth">数据卷</div>
+        <div id="first" :class="{ active: tabIndex === 0 }">初始化容器</div>
+        <div id="second" :class="{ active: tabIndex === 1 }">容器名称</div>
+        <div id="third" :class="{ active: tabIndex === 2 }">端口映射</div>
+        <div id="fourth" :class="{ active: tabIndex === 3 }">数据卷</div>
       </div>
       <el-button class="btn-next" type="warning">下一步</el-button>
     </div>
@@ -136,98 +111,29 @@
 </template>
 
 <script>
-import $ from "jquery";
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      tabIndex: 0, // 默认tab下标
+      tabMap: ["one", "two", "three", "four"],
+      tabList: [
+        { class: "choose", svg: "#shopping-cart", name: "初始化容器" },
+        { class: "pay", svg: "#credit-card", name: "设置容器名称" },
+        { class: "wrap", svg: "#gift", name: "设置端口映射关系" },
+        { class: "ship", svg: "#package", name: "数据卷挂载" },
+      ],
+    };
   },
   computed: {},
   watch: {},
-  methods: {},
-  created() {},
-  mounted() {
-    $(".choose").click(function () {
-      $(".choose").addClass("active");
-      $(".choose > .icon").addClass("active");
-      $(".pay").removeClass("active");
-      $(".wrap").removeClass("active");
-      $(".ship").removeClass("active");
-      $(".pay > .icon").removeClass("active");
-      $(".wrap > .icon").removeClass("active");
-      $(".ship > .icon").removeClass("active");
-      $("#line").addClass("one");
-      $("#line").removeClass("two");
-      $("#line").removeClass("three");
-      $("#line").removeClass("four");
-    });
-    $(".pay").click(function () {
-      $(".pay").addClass("active");
-      $(".pay > .icon").addClass("active");
-      $(".choose").removeClass("active");
-      $(".wrap").removeClass("active");
-      $(".ship").removeClass("active");
-      $(".choose > .icon").removeClass("active");
-      $(".wrap > .icon").removeClass("active");
-      $(".ship > .icon").removeClass("active");
-      $("#line").addClass("two");
-      $("#line").removeClass("one");
-      $("#line").removeClass("three");
-      $("#line").removeClass("four");
-    });
-    $(".wrap").click(function () {
-      $(".wrap").addClass("active");
-      $(".wrap > .icon").addClass("active");
-      $(".pay").removeClass("active");
-      $(".choose").removeClass("active");
-      $(".ship").removeClass("active");
-      $(".pay > .icon").removeClass("active");
-      $(".choose > .icon").removeClass("active");
-      $(".ship > .icon").removeClass("active");
-      $("#line").addClass("three");
-      $("#line").removeClass("two");
-      $("#line").removeClass("one");
-      $("#line").removeClass("four");
-    });
-    $(".ship").click(function () {
-      $(".ship").addClass("active");
-      $(".ship > .icon").addClass("active");
-      $(".pay").removeClass("active");
-      $(".wrap").removeClass("active");
-      $(".choose").removeClass("active");
-      $(".pay > .icon").removeClass("active");
-      $(".wrap > .icon").removeClass("active");
-      $(".choose > .icon").removeClass("active");
-      $("#line").addClass("four");
-      $("#line").removeClass("two");
-      $("#line").removeClass("three");
-      $("#line").removeClass("one");
-    });
-    $(".choose").click(function () {
-      $("#first").addClass("active");
-      $("#second").removeClass("active");
-      $("#third").removeClass("active");
-      $("#fourth").removeClass("active");
-    });
-    $(".pay").click(function () {
-      $("#first").removeClass("active");
-      $("#second").addClass("active");
-      $("#third").removeClass("active");
-      $("#fourth").removeClass("active");
-    });
-    $(".wrap").click(function () {
-      $("#first").removeClass("active");
-      $("#second").removeClass("active");
-      $("#third").addClass("active");
-      $("#fourth").removeClass("active");
-    });
-    $(".ship").click(function () {
-      $("#first").removeClass("active");
-      $("#second").removeClass("active");
-      $("#third").removeClass("active");
-      $("#fourth").addClass("active");
-    });
+  methods: {
+    clickTabHandle(idx) {
+      this.tabIndex = idx;
+    },
   },
+  created() {},
+  mounted() {},
   beforeCreate() {},
   beforeMount() {},
   beforeUpdate() {},
