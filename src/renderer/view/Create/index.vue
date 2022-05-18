@@ -74,6 +74,18 @@
         ></path>
       </g>
     </svg>
+    <el-steps
+      :style="{ width: '500px' }"
+      :active="stepIdx"
+      finish-status="success"
+      align-center
+    >
+      <el-step title="初始化"></el-step>
+      <el-step title="设置名称"></el-step>
+      <el-step title="端口映射"></el-step>
+      <el-step title="数据卷配置"></el-step>
+      <el-step title="容器启动"></el-step>
+    </el-steps>
     <div id="wrapper">
       <div id="left-side">
         <ul>
@@ -81,7 +93,6 @@
             v-for="(item, idx) in tabList"
             :key="idx"
             :class="[item.class, tabIndex == idx ? 'active' : '']"
-            @click="clickTabHandle(idx)"
           >
             <div :class="['icon', tabIndex == idx ? 'active' : '']">
               <svg viewBox="0 0 32 32">
@@ -100,12 +111,18 @@
       </div>
       <!-- 右侧展示区域 -->
       <div id="right-side">
-        <div id="first" :class="{ active: tabIndex === 0 }">初始化容器</div>
-        <div id="second" :class="{ active: tabIndex === 1 }">容器名称</div>
-        <div id="third" :class="{ active: tabIndex === 2 }">端口映射</div>
-        <div id="fourth" :class="{ active: tabIndex === 3 }">数据卷</div>
+        <div id="first" :class="{ active: tabIndex === 0 }">容器名称</div>
+        <div id="second" :class="{ active: tabIndex === 1 }">端口映射</div>
+        <div id="third" :class="{ active: tabIndex === 2 }">数据卷</div>
+        <div id="fourth" :class="{ active: tabIndex === 3 }">启动容器</div>
       </div>
-      <el-button class="btn-next" type="warning">下一步</el-button>
+      <el-button
+        class="btn-next"
+        :type="tabIndex === 3 ? 'success' : 'warning'"
+        @click="nextHandle"
+      >
+        {{ tabIndex === 3 ? "启动容器" : "下一步" }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -116,20 +133,28 @@ export default {
   data() {
     return {
       tabIndex: 0, // 默认tab下标
+      stepIdx: 1, // 步骤条下标
       tabMap: ["one", "two", "three", "four"],
+      lock: true,
       tabList: [
-        { class: "choose", svg: "#shopping-cart", name: "初始化容器" },
-        { class: "pay", svg: "#credit-card", name: "设置容器名称" },
-        { class: "wrap", svg: "#gift", name: "设置端口映射关系" },
-        { class: "ship", svg: "#package", name: "数据卷挂载" },
+        { class: "choose", svg: "#shopping-cart", name: "设置容器名称" },
+        { class: "pay", svg: "#credit-card", name: "设置端口映射关系" },
+        { class: "wrap", svg: "#gift", name: "数据卷挂载" },
+        { class: "ship", svg: "#package", name: "容器启动" },
       ],
     };
   },
   computed: {},
   watch: {},
   methods: {
-    clickTabHandle(idx) {
-      this.tabIndex = idx;
+    // 下一步
+    nextHandle() {
+      if (this.tabIndex < 3) {
+        this.tabIndex++;
+        this.stepIdx++;
+      } else {
+        this.stepIdx < 5 && this.stepIdx++;
+      }
     },
   },
   created() {},
