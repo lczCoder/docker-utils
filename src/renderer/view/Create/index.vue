@@ -111,8 +111,51 @@
       </div>
       <!-- 右侧展示区域 -->
       <div id="right-side">
-        <div id="first" :class="{ active: tabIndex === 0 }">容器名称</div>
-        <div id="second" :class="{ active: tabIndex === 1 }">端口映射</div>
+        <!-- 设置容器名称 -->
+        <div id="first" :class="{ active: tabIndex === 0 }">
+          <div class="content-box">
+            <el-input
+              :style="{ width: '500px' }"
+              placeholder="请输入容器名称"
+              :clearable="true"
+              v-model="containerNmae"
+            >
+              <template slot="prepend">容器名：</template>
+            </el-input>
+          </div>
+        </div>
+        <!-- 端口映射 -->
+        <div id="second" :class="{ active: tabIndex === 1 }">
+          <div class="content-box">
+            <el-input
+              :style="{ width: '350px' }"
+              placeholder="请输入本地端口"
+              :clearable="true"
+              maxlength="4"
+              show-word-limit
+              v-model="localPort"
+            >
+              <template slot="prepend">本地端口号：</template>
+            </el-input>
+            <el-button
+              class="replace-port"
+              type="info"
+              icon="el-icon-sort"
+              circle
+              @click="replacePortHandle"
+            />
+            <el-input
+              :style="{ width: '350px' }"
+              placeholder="请输入容器对应端口"
+              :clearable="true"
+              maxlength="4"
+              show-word-limit
+              v-model="containerPort"
+            >
+              <template slot="prepend">容器端口号：</template>
+            </el-input>
+          </div>
+        </div>
         <div id="third" :class="{ active: tabIndex === 2 }">数据卷</div>
         <div id="fourth" :class="{ active: tabIndex === 3 }">启动容器</div>
       </div>
@@ -136,6 +179,9 @@ export default {
       stepIdx: 1, // 步骤条下标
       tabMap: ["one", "two", "three", "four"],
       lock: true,
+      containerNmae: "", // 容器名称
+      localPort: "3000", // 默认端口号
+      containerPort: "3000",
       tabList: [
         { class: "choose", svg: "#shopping-cart", name: "设置容器名称" },
         { class: "pay", svg: "#credit-card", name: "设置端口映射关系" },
@@ -149,12 +195,57 @@ export default {
   methods: {
     // 下一步
     nextHandle() {
-      if (this.tabIndex < 3) {
-        this.tabIndex++;
-        this.stepIdx++;
-      } else {
-        this.stepIdx < 5 && this.stepIdx++;
+      switch (this.tabIndex) {
+        // 验证容器名称
+        case 0:
+          if (!this.containerNmae) {
+            this.showMessage("请输入容器名称", "warning");
+            break;
+          }
+          if (/^[a-zA-Z0-9_-]{1,16}$/.test(this.containerNmae)) {
+            this.tabIndex++;
+            this.stepIdx++;
+          } else {
+            this.showMessage("容器名称不符合规范", "warning");
+          }
+          break;
+        case 1:
+          if (!this.localPort || !this.containerPort) {
+            this.showMessage("请输入完整的端口映射关系", "warning");
+            break;
+          }
+          if (
+            /^[0-9]{1,4}$/.test(this.localPort) &&
+            /^[0-9]{1,4}$/.test(this.localPort)
+          ) {
+            this.tabIndex++;
+            this.stepIdx++;
+          }else{
+            this.showMessage("端口不符合规范", "warning");
+          }
+          break;
       }
+
+      // if (this.tabIndex < 3) {
+      //   this.tabIndex++;
+      //   this.stepIdx++;
+      // } else {
+      //   this.stepIdx < 5 && this.stepIdx++;
+      // }
+    },
+    // 交换端口号
+    replacePortHandle() {
+      [this.localPort, this.containerPort] = [
+        this.containerPort,
+        this.localPort,
+      ];
+    },
+    // message显示
+    showMessage(message, type) {
+      this.$message({
+        message: message,
+        type: type,
+      });
     },
   },
   created() {},
@@ -362,5 +453,18 @@ export default {
   position: fixed;
   bottom: 100px;
   right: 120px;
+}
+
+.content-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.replace-port {
+  margin: 20px 0;
 }
 </style>
