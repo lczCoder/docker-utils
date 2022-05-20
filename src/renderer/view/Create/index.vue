@@ -320,7 +320,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url("../../assets/cool-background .png") no-repeat;
+  background: url("../../assets/cool-background.png") no-repeat;
   background-size: cover;
   width: 100%;
   height: 100vh;
@@ -348,12 +348,13 @@ export default {
 }
 
 #wrapper {
-  width: 80%;
+  width: 85%;
   height: 70%;
   position: relative;
   margin-top: 10px;
-  background-color: #fff;
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, .7);
+  backdrop-filter: blur(15px);
+  border-radius: 50px;
   box-shadow: 10 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   display: -webkit-box;
   display: -webkit-flex;

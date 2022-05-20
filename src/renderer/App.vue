@@ -2,8 +2,8 @@
   <div id="app">
     <!-- 顶部拖拽区域 -->
     <div v-if="env" class="drop-box"></div>
-    <router-view></router-view>
     <VExit :visible="visible" @onClose="closeHandle" @onAffirm="affirmHandle" />
+    <router-view></router-view>
   </div>
 </template>
 

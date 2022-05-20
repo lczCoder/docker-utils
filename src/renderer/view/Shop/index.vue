@@ -162,7 +162,7 @@ export default {
   .bg-box {
     width: 100%;
     height: 40%;
-    background: url('../../assets/cool-background .png') no-repeat;
+    background: url('../../assets/cool-background.png') no-repeat;
     background-size: cover;
     display: flex;
     flex-direction: column;
