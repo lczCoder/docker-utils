@@ -76,11 +76,11 @@ ipcMain.on("select-volume-files", (event) => {
   const result = dialog.showOpenDialog(mainWindow, {
     properties: [
       "openDirectory",
-      "multiSelections",
       "createDirectory",
       "promptToCreate",
     ],
   });
+  console.log(result);
   result && event.sender.send("volume-files-result", result);
 });
 

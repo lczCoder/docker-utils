@@ -115,7 +115,7 @@
         <div id="first" :class="{ active: tabIndex === 0 }">
           <div class="content-box">
             <el-input
-              :style="{ width: '500px' }"
+              :style="{ width: '450px' }"
               placeholder="请输入容器名称"
               :clearable="true"
               v-model="containerNmae"
@@ -156,21 +156,47 @@
             </el-input>
           </div>
         </div>
-        <div id="third" :class="{ active: tabIndex === 2 }">数据卷</div>
-        <div id="fourth" :class="{ active: tabIndex === 3 }">启动容器</div>
+        <div id="third" :class="{ active: tabIndex === 2 }">
+          <div class="content-box">
+            <el-empty description=" " :image-size="100">
+              <el-button type="info" @click="dorpEvent">{{
+                volumePath !== "/" ? "重新选择数据卷" : "点击选择要挂载的数据卷"
+              }}</el-button>
+            </el-empty>
+            <el-descriptions size="small" :column="1" border>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-location-information"></i>
+                  路径：
+                </template>
+                {{ volumePath }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </div>
+        </div>
+        <!-- 容器启动提示 -->
+        <div id="fourth" :class="{ active: tabIndex === 3 }">
+          <div class="content-box">
+            <el-empty
+              :image="startImg"
+              description="稍作休息，容器马上就创建好啦~"
+            ></el-empty>
+          </div>
+        </div>
       </div>
       <el-button
         class="btn-next"
         :type="tabIndex === 3 ? 'success' : 'warning'"
         @click="nextHandle"
       >
-        {{ tabIndex === 3 ? "启动容器" : "下一步" }}
+        {{ tabIndex === 3 ? "创建并启动容器" : "下一步" }}
       </el-button>
     </div>
   </div>
 </template>
 
 <script>
+const { ipcRenderer } = require("electron");
 export default {
   components: {},
   data() {
@@ -180,12 +206,14 @@ export default {
       tabMap: ["one", "two", "three", "four"],
       lock: true,
       containerNmae: "", // 容器名称
-      localPort: "3000", // 默认端口号
-      containerPort: "3000",
+      localPort: "", // 默认端口号
+      containerPort: "",
+      volumePath: "/", // 文件夹路径
+      startImg: require("../../assets/test.png"),
       tabList: [
         { class: "choose", svg: "#shopping-cart", name: "设置容器名称" },
-        { class: "pay", svg: "#credit-card", name: "设置端口映射关系" },
-        { class: "wrap", svg: "#gift", name: "数据卷挂载" },
+        { class: "pay", svg: "#credit-card", name: "设置端口(可选)" },
+        { class: "wrap", svg: "#gift", name: "数据卷挂载(可选)" },
         { class: "ship", svg: "#package", name: "容器启动" },
       ],
     };
@@ -209,29 +237,39 @@ export default {
             this.showMessage("容器名称不符合规范", "warning");
           }
           break;
+        // 验证端口映射 (可选)
         case 1:
-          if (!this.localPort || !this.containerPort) {
-            this.showMessage("请输入完整的端口映射关系", "warning");
-            break;
-          }
           if (
-            /^[0-9]{1,4}$/.test(this.localPort) &&
-            /^[0-9]{1,4}$/.test(this.localPort)
+            (this.localPort && this.containerPort) ||
+            (!this.localPort && !this.containerPort)
           ) {
-            this.tabIndex++;
-            this.stepIdx++;
-          }else{
-            this.showMessage("端口不符合规范", "warning");
+            if (
+              /^[0-9]{0,4}$/.test(this.localPort) &&
+              /^[0-9]{0,4}$/.test(this.localPort)
+            ) {
+              this.tabIndex++;
+              this.stepIdx++;
+            } else {
+              this.showMessage("端口不符合规范", "warning");
+            }
+          } else {
+            this.showMessage("请输入完整的端口映射关系", "warning");
           }
           break;
+        // 验证数据卷
+        case 2:
+          this.tabIndex++;
+          this.stepIdx++;
+          break;
+        case 3:
+          if (this.stepIdx < 5) {
+            this.stepIdx++;
+            this.createContainer();
+          }
+          break;
+        default:
+          break;
       }
-
-      // if (this.tabIndex < 3) {
-      //   this.tabIndex++;
-      //   this.stepIdx++;
-      // } else {
-      //   this.stepIdx < 5 && this.stepIdx++;
-      // }
     },
     // 交换端口号
     replacePortHandle() {
@@ -247,9 +285,26 @@ export default {
         type: type,
       });
     },
+    // 选择数据卷文件
+    dorpEvent() {
+      ipcRenderer.send("select-volume-files");
+    },
+    // 创建容器
+    createContainer() {
+      this.$showLoading.show();
+      setTimeout(() =>{
+      this.$showLoading.hide();
+      this.$router.push('/shop')
+      },2000)
+    },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // 监听文件选择事件
+    ipcRenderer.on("volume-files-result", (e, arg) => {
+      this.volumePath = arg[0];
+    });
+  },
   beforeCreate() {},
   beforeMount() {},
   beforeUpdate() {},
