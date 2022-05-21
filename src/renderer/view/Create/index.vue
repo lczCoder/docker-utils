@@ -197,6 +197,7 @@
 
 <script>
 const { ipcRenderer } = require("electron");
+import { exec } from "child_process";
 export default {
   components: {},
   data() {
@@ -292,10 +293,29 @@ export default {
     // 创建容器
     createContainer() {
       this.$showLoading.show();
-      setTimeout(() =>{
-      this.$showLoading.hide();
-      this.$router.push('/shop')
-      },2000)
+      const port =
+        this.localPort && this.containerPort
+          ? `-p ${this.localPort}:${this.containerPort}`
+          : "";
+      const volume =
+        this.volumePath !== "/" ? `-v ${this.volumePath}:/root/docker` : "";
+      exec(
+        `docker run -itd --name=${this.containerNmae} ${port} ${volume} alpine`,
+        (err, stdout, stderr) => {
+          if (err || stderr) {
+            this.$showLoading.hide();
+            this.$message({
+              type: "error",
+              message: "容器创建失败",
+            });
+          } else {
+            setTimeout(() => {
+              this.$showLoading.hide();
+              this.$router.push("/shop");
+            }, 2000);
+          }
+        }
+      );
     },
   },
   created() {},
@@ -352,7 +372,7 @@ export default {
   height: 70%;
   position: relative;
   margin-top: 10px;
-  background-color: rgba(255, 255, 255, .7);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(15px);
   border-radius: 50px;
   box-shadow: 10 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
