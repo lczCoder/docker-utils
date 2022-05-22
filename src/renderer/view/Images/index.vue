@@ -61,7 +61,7 @@
 
 <script>
 import { exec } from "child_process";
-import { regCmdStr } from "../../utils";
+import { regImagesList } from "../../utils";
 export default {
   components: {},
   data() {
@@ -80,30 +80,12 @@ export default {
         if (err) {
           this.$message.error("镜像列表获取失败");
         }
-        let source = stdout.split("\n");
-        source.pop();
-        source.shift();
-        this.dealImageData(source); // 获取数据内容
-        let timer = setTimeout(() => {
-          this.isLoading = false;
+        this.imageData = regImagesList(stdout);
+        let timer = setTimeout(() =>{
+          this.isLoading = false
           clearTimeout(timer);
-        }, 1000);
+        },500)
       });
-    },
-    // 解析 images 数据内容
-    dealImageData(ary) {
-      const newAry = [];
-      ary.forEach((item) => {
-        const current = regCmdStr(item);
-        let obj = {};
-        obj.repository = current[0]; // 储存库名
-        obj.tag = current[1]; // 标签名称
-        obj.image = current[2]; // image 镜像名称
-        obj.time = current[3]; // 创建时间
-        obj.size = current[4]; // 存储大小
-        newAry.push(obj);
-      });
-      this.imageData = newAry;
     },
     // 删除镜像
     deleteImage(id, name) {

@@ -197,6 +197,7 @@
 
 <script>
 const { ipcRenderer } = require("electron");
+import {regImagesList } from "../../utils";
 import { exec } from "child_process";
 export default {
   components: {},
@@ -217,6 +218,7 @@ export default {
         { class: "wrap", svg: "#gift", name: "数据卷挂载(可选)" },
         { class: "ship", svg: "#package", name: "容器启动" },
       ],
+      imagesList:[], // 镜像列表
     };
   },
   computed: {},
@@ -317,6 +319,9 @@ export default {
         }
       );
     },
+    // 获取镜像列表
+    findImages(){
+    }
   },
   created() {},
   mounted() {
@@ -324,6 +329,8 @@ export default {
     ipcRenderer.on("volume-files-result", (e, arg) => {
       this.volumePath = arg[0];
     });
+    // 获取镜像列表
+    this.findImages()
   },
   beforeCreate() {},
   beforeMount() {},
