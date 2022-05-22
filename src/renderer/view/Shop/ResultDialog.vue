@@ -24,7 +24,11 @@
             <div class="popover-box">
               <div class="popover-box-content">
                 <p class="popover-box-en">{{ scope.row.explain }}</p>
-                <el-link type="primary" class="popover-box-ch">
+                <el-link
+                  :underline="false"
+                  type="primary"
+                  class="popover-box-ch"
+                >
                   {{ enToCH }}
                 </el-link>
               </div>
@@ -65,7 +69,7 @@
 </template>
 
 <script>
-// import md5 from "js-md5";
+import { baiduTranslate } from '../../utils'
 export default {
   components: {},
   props: {
@@ -74,29 +78,36 @@ export default {
   },
   data() {
     return {
-      enToCH: "",
+      enToCH: '',
       btnLoading: false, // 翻译按钮loading
-    };
+    }
   },
   computed: {},
   watch: {},
   methods: {
     // 介绍弹出框消失事件触发
     hideClear() {
-      this.enToCH = "";
+      this.enToCH = ''
     },
     // 关闭弹窗
     onCloseHandle() {
-      this.$emit("DialogShow");
+      this.$emit('DialogShow')
     },
     // 翻译
     translateHandle(text) {
-      this.btnLoading = true;
-      let timer = setTimeout(() => {
-        this.btnLoading = false;
-        this.enToCH = "翻译好了";
-        clearTimeout(timer);
-      }, 2000);
+      this.btnLoading = true
+      baiduTranslate(text)
+        .then((res) => {
+          this.btnLoading = false
+          this.enToCH = res
+        })
+        .catch((err) => {
+          this.$message({
+            message: err,
+            type: 'error',
+          })
+          this.btnLoading = false
+        })
     },
   },
   created() {},
@@ -108,10 +119,9 @@ export default {
   beforeDestroy() {},
   destroyed() {},
   activated() {},
-};
+}
 </script>
 <style lang="scss" scoped>
-
 .explain-text {
   word-break: break-all;
   text-overflow: ellipsis;

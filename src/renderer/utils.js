@@ -1,3 +1,6 @@
+import md5 from "js-md5";
+import $axios from "axios";
+
 // 解析cmd 终端命令返回值， 表格处理
 export const regCmdStr = (str) => {
   let lx = str.replace(/\s /g, "|");
@@ -23,5 +26,36 @@ export const regImagesList = (stdout) => {
     obj.size = current[4]; // 存储大小
     newAry.push(obj);
   });
-  return newAry
+  return newAry;
+};
+
+const appid = "20220426001190567";
+const key = "_9bWd9tUegY6fyObbq2b";
+const salt = "9477"; //（随机码）
+
+// 百度翻译api
+export const baiduTranslate = async (q) => {
+  return new Promise((resolve, reject) => {
+    const url = "https://api.fanyi.baidu.com/api/trans/vip/translate";
+    const str = `${appid}${q}${salt}${key}`;
+    const sign = md5(str);
+    $axios
+      .get(
+        `${url}?q=${encodeURI(
+          q
+        )}&from=en&to=zh&appid=${appid}&salt=${salt}&sign=${sign}`
+      )
+      .then((res) => {
+        const { trans_result } = res.data;
+        if (trans_result) {
+          const result = trans_result[0].dst
+          resolve(result)
+        } else {
+          reject("网络请求错误");
+        }
+      })
+      .catch((err) => {
+        reject("网络请求错误");
+      });
+  });
 };

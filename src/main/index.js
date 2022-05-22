@@ -41,8 +41,9 @@ function createWindow() {
     enableRemoteModule: true,
     contextIsolation: false,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true, // 是否集成node
       contextIsolation: false, //Electron 12.0以上版本需要的额外设置此项
+      webSecurity: false//是否禁用同源策略(上线时删除此配置)
     },
   });
 
