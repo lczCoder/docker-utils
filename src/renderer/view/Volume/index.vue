@@ -1,40 +1,19 @@
 <template>
-  <div class="">
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-  <el-page-header @back="$router.back()" content="镜像列表"> </el-page-header>
-
-    <button @click="visible = true">显示</button>
-    <div v-for="item in 100">
-      <p>{{ item }}</p>
-    </div>
-    <VExit :visible="visible" @onClose="closeHandle" @onAffirm="affirmHandle" />
+  <div class="volume-warp">
+    <el-page-header @back="$router.back()" content="数据卷"></el-page-header>
+    <el-empty description="功能正在开发中，敬请期待"></el-empty>
   </div>
 </template>
 
 <script>
-import VExit from "../../components/V-Exit";
 export default {
-  components: {
-    VExit,
-  },
+  components: {},
   data() {
-    return {
-      visible: false,
-    };
+    return {};
   },
   computed: {},
   watch: {},
-  methods: {
-    closeHandle() {
-      this.visible = false;
-    },
-    affirmHandle() {
-      this.visible = false;
-    },
-  },
+  methods: {},
   created() {},
   mounted() {},
   beforeCreate() {},
@@ -47,5 +26,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-//@import url(); 引入公共css类
+.volume-warp {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>

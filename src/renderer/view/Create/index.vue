@@ -84,7 +84,7 @@
       <el-step title="设置名称"></el-step>
       <el-step title="端口映射"></el-step>
       <el-step title="数据卷配置"></el-step>
-      <el-step title="容器启动"></el-step>
+      <el-step title="选择镜像"></el-step>
     </el-steps>
     <div id="wrapper">
       <div id="left-side">
@@ -177,10 +177,19 @@
         <!-- 容器启动提示 -->
         <div id="fourth" :class="{ active: tabIndex === 3 }">
           <div class="content-box">
-            <el-empty
-              :image="startImg"
-              description="稍作休息，容器马上就创建好啦~"
-            ></el-empty>
+            <el-select
+              :style="{ width: '500px', marginTop: '-150px' }"
+              v-model="selectImages"
+              placeholder="请选择镜像文件"
+            >
+              <el-option
+                v-for="(item, idx) in imagesList"
+                :key="idx"
+                :label="item.repository"
+                :value="item.image"
+              >
+              </el-option>
+            </el-select>
           </div>
         </div>
       </div>
@@ -197,7 +206,7 @@
 
 <script>
 const { ipcRenderer } = require("electron");
-import {regImagesList } from "../../utils";
+import { regImagesList } from "../../utils";
 import { exec } from "child_process";
 export default {
   components: {},
@@ -212,17 +221,23 @@ export default {
       containerPort: "",
       volumePath: "/", // 文件夹路径
       startImg: require("../../assets/test.png"),
+      selectImages: "", // 选择镜像
       tabList: [
         { class: "choose", svg: "#shopping-cart", name: "设置容器名称" },
         { class: "pay", svg: "#credit-card", name: "设置端口(可选)" },
         { class: "wrap", svg: "#gift", name: "数据卷挂载(可选)" },
-        { class: "ship", svg: "#package", name: "容器启动" },
+        { class: "ship", svg: "#package", name: "选择镜像" },
       ],
-      imagesList:[], // 镜像列表
+      imagesList: [], // 镜像列表
     };
   },
   computed: {},
-  watch: {},
+  watch: {
+    // 获取镜像列表
+    tabIndex(newValue) {
+      newValue === 3 && this.findImages();
+    },
+  },
   methods: {
     // 下一步
     nextHandle() {
@@ -264,10 +279,13 @@ export default {
           this.tabIndex++;
           this.stepIdx++;
           break;
+        // 验证镜像
         case 3:
-          if (this.stepIdx < 5) {
+          if (this.selectImages) {
             this.stepIdx++;
             this.createContainer();
+          } else {
+            this.showMessage("请选择镜像文件", "warning");
           }
           break;
         default:
@@ -302,10 +320,11 @@ export default {
       const volume =
         this.volumePath !== "/" ? `-v ${this.volumePath}:/root/docker` : "";
       exec(
-        `docker run -itd --name=${this.containerNmae} ${port} ${volume} alpine`,
+        `docker run -itd --name=${this.containerNmae} ${port} ${volume} ${this.selectImages}`,
         (err, stdout, stderr) => {
           if (err || stderr) {
             this.$showLoading.hide();
+            console.log(err, stderr);
             this.$message({
               type: "error",
               message: "容器创建失败",
@@ -320,8 +339,14 @@ export default {
       );
     },
     // 获取镜像列表
-    findImages(){
-    }
+    findImages() {
+      exec("docker images", (err, stdout) => {
+        if (err) {
+          this.$message.error("镜像列表获取失败");
+        }
+        this.imagesList = regImagesList(stdout);
+      });
+    },
   },
   created() {},
   mounted() {
@@ -329,8 +354,6 @@ export default {
     ipcRenderer.on("volume-files-result", (e, arg) => {
       this.volumePath = arg[0];
     });
-    // 获取镜像列表
-    this.findImages()
   },
   beforeCreate() {},
   beforeMount() {},
