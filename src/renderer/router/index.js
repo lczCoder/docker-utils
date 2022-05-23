@@ -7,6 +7,7 @@ import Images from '../view/Images'
 import Shop from '../view/Shop'
 import Volume from '../view/Volume'
 import Create from '../view/Create'
+import Error from '../view/Error'
 
 Vue.use(Router);
 
@@ -41,6 +42,11 @@ export default new Router({
       path: "/volume",
       name: "Volume",
       component: Volume,
+    },
+    {
+      path: "/error",
+      name: "Error",
+      component: Error,
     },
     {
       path: "*",

@@ -19,12 +19,19 @@
 </template>
 
 <script>
+import { exec } from "child_process";
 export default {
   created() {
-    let timer = setTimeout(() => {
-      this.$router.push("/home");
-      clearTimeout(timer);
-    }, 500);
+    exec("docker images", (err, stdout, stderr) => {
+      if (err || stderr) {
+        this.$router.push("/error");
+      } else {
+        let timer = setTimeout(() => {
+          this.$router.push("/home");
+          clearTimeout(timer);
+        }, 1000);
+      }
+    });
   },
 };
 </script>
